@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QLCFModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BillInfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FoodID" Type="Int32" />
+    <Property Name="BillID" Type="Int32" />
+    <Property Name="Count" Type="Double" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="DiscountID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CategoryFood">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Value" Type="Int32" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="MaxValue" Type="Double" />
+    <Property Name="MinBillValue" Type="Double" />
+    <Property Name="BeginDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="QLCFEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BillInfoes" EntityType="Self.BillInfo" />
+    <EntitySet Name="CategoryFoods" EntityType="Self.CategoryFood" />
+    <EntitySet Name="Discounts" EntityType="Self.Discount" />
+    <EntitySet Name="Foods" EntityType="QLCFModel.Food" />
+    <EntitySet Name="Users" EntityType="QLCFModel.User" />
+    <EntitySet Name="Customers" EntityType="QLCFModel.Customer" />
+    <EntitySet Name="Bills" EntityType="QLCFModel.Bill" />
+    <FunctionImport Name="InsertBill">
+      <Parameter Name="createdate" Mode="In" Type="DateTime" />
+      <Parameter Name="card" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertBillInFo">
+      <Parameter Name="idBill" Mode="In" Type="Int32" />
+      <Parameter Name="idFood" Mode="In" Type="Int32" />
+      <Parameter Name="count" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="getfoodbyID" ReturnType="Collection(QLCFModel.getfoodbyID_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="getMaxID" ReturnType="Collection(Int32)" />
+    <FunctionImport Name="USP_GetListBillByDate" ReturnType="Collection(QLCFModel.USP_GetListBillByDate_Result)">
+      <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="toDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="USP_GetListfoodsell" ReturnType="Collection(QLCFModel.USP_GetListfoodsell_Result)" />
+  </EntityContainer>
+  <EntityType Name="Food">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Path" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Sector" Type="Int32" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phonenumbew" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InvoiceNumber" Type="Int32" />
+    <Property Name="Point" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Bill">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Createdate" Type="DateTime" Precision="3" />
+    <Property Name="TotalPrice" Type="Double" />
+    <Property Name="FoodID" Type="Int32" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CardID" Type="Int32" />
+  </EntityType>
+  <ComplexType Name="getfoodbyID_Result">
+    <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="count" Nullable="true" />
+    <Property Type="Double" Name="price" Nullable="true" />
+    <Property Type="Double" Name="totalPrice" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="USP_GetListBillByDate_Result">
+    <Property Type="String" Name="Tên_món" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Giá" Nullable="true" />
+    <Property Type="Double" Name="Số_lượng" Nullable="true" />
+    <Property Type="Double" Name="Doanh_thu" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="USP_GetListfoodsell_Result">
+    <Property Type="String" Name="Tên_món" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Giá" Nullable="true" />
+    <Property Type="Double" Name="Số_lượng" Nullable="true" />
+    <Property Type="Double" Name="Doanh_thu" Nullable="true" />
+  </ComplexType>
+</Schema>
